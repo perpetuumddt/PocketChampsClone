@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace StateMachine
@@ -67,11 +68,10 @@ namespace StateMachine
             StateMachine.CurrentState.Data.MovementController.DoMove(velocity);
         }
 
-        private IEnumerator MovePosIntoSwim()
+        private async void ChangePos(Vector3 dir)
         {
-            Vector3 velocity = new(0f, -2f, 0f);
-            StateMachine.CurrentState.Data.MovementController.DoMove(velocity);
-            yield return new WaitForSeconds(1f);
+            StateMachine.CurrentState.Data.MovementController.DoMove(dir);
+            await Task.Delay(1000);
         }
     }
 }

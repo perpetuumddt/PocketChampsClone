@@ -26,7 +26,7 @@ public class CharacterController : MonoBehaviour
     private void Awake()
     {
         _stateMachine = new StateMachine<CharacterController>();
-        _stateMachine.CurrentState = new CharacterRunState(this,_stateMachine);
+        _stateMachine.CurrentState = new CharacterIdleState(this,_stateMachine);
         _stateMachine.CurrentState.Initialize();
         _stateMachine.CurrentState.Execute();
     }

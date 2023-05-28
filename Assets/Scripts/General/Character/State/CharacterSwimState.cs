@@ -1,6 +1,7 @@
 using StateMachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CharacterSwimState : State<CharacterController>
@@ -17,6 +18,7 @@ public class CharacterSwimState : State<CharacterController>
         base.Initialize(param);
         StateMachine.CurrentState.Data.TriggerController.OnRun += SwitchStateRun;
         StateMachine.CurrentState.Data.TriggerController.OnClimb += SwitchStateClimb;
+        ChangePos(new(0, -2, 0));
     }
 
     public override void Execute()
@@ -56,5 +58,9 @@ public class CharacterSwimState : State<CharacterController>
         StateMachine.CurrentState.Data.MovementController.DoMove(velocity);
     }
 
-    
+    private async void ChangePos(Vector3 dir)
+    {
+        StateMachine.CurrentState.Data.MovementController.DoMove(dir);
+        await Task.Delay(1000);
+    }
 }

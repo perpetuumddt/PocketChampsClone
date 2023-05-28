@@ -14,6 +14,7 @@ namespace StateMachine
         public override void Initialize(params object[] param)
         {
             base.Initialize(param);
+            StateMachine.CurrentState.Data.TriggerController.OnRun += SwitchStateRun;
         }
 
         public override void Execute()
@@ -28,8 +29,16 @@ namespace StateMachine
         public override void StopExecution()
         {
             base.StopExecution();
-
+            StateMachine.CurrentState.Data.TriggerController.OnRun -= SwitchStateRun;
             StateMachine.CurrentState.Data.AnimationController.SetActiveBoolAnim(_animParameter, false);
+        }
+
+        public void SwitchStateRun()
+        {
+            StopExecution();
+            StateMachine.CurrentState = new CharacterRunState(StateMachine.CurrentState.Data, StateMachine);
+            StateMachine.CurrentState.Initialize();
+            StateMachine.CurrentState.Execute();
         }
     }
 }

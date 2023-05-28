@@ -1,6 +1,7 @@
 using StateMachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CharacterClimbState : State<CharacterController> 
@@ -61,5 +62,11 @@ public class CharacterClimbState : State<CharacterController>
     private void Movement(Vector3 velocity)
     {
         StateMachine.CurrentState.Data.MovementController.DoMove(velocity);
+    }
+
+    private async void ChangePos(Vector3 dir)
+    {
+        StateMachine.CurrentState.Data.MovementController.DoMove(dir);
+        await Task.Delay(1000);
     }
 }

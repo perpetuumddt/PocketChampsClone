@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7221459791383067750}
   - component: {fileID: 7221459791383067748}
   - component: {fileID: 5509425329438391509}
+  - component: {fileID: 2887505775896113933}
   - component: {fileID: 7221459791383067749}
   - component: {fileID: 7221459791383067769}
   - component: {fileID: 7221459791383067770}
@@ -56,6 +57,7 @@ MonoBehaviour:
   _movementController: {fileID: 7221459791383067750}
   _inputHandler: {fileID: 7221459791383067748}
   _triggerController: {fileID: 5509425329438391509}
+  _statsController: {fileID: 2887505775896113933}
 --- !u!114 &7221459791383067746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +108,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470384f39d59ee14bb1892cc3a4f271b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2887505775896113933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7221459791383067747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae909fe570da2244db1f027d8cb5b229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerStats: {fileID: 0}
+  _sliderMinigameController: {fileID: 0}
 --- !u!114 &7221459791383067749
 MonoBehaviour:
   m_ObjectHideFlags: 0

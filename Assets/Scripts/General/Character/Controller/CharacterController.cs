@@ -21,6 +21,11 @@ public class CharacterController : MonoBehaviour
     private CharacterTriggerController _triggerController;
     public CharacterTriggerController TriggerController => _triggerController;
 
+    [SerializeField]
+    private CharacterStatsController _statsController;
+
+    public CharacterStatsController StatsController => _statsController;
+
     private StateMachine<CharacterController> _stateMachine;
 
     private void Awake()

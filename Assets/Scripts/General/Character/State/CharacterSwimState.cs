@@ -16,16 +16,18 @@ public class CharacterSwimState : State<CharacterController>
     public override void Initialize(params object[] param)
     {
         base.Initialize(param);
+
         StateMachine.CurrentState.Data.TriggerController.OnRun += SwitchStateRun;
         StateMachine.CurrentState.Data.TriggerController.OnClimb += SwitchStateClimb;
-        ChangePos(new(0, -2, 0));
+
+        StateMachine.CurrentState.Data.MovementController.TeleportY(16);
     }
 
     public override void Execute()
     {
         base.Execute();
         StateMachine.CurrentState.Data.AnimationController.SetActiveBoolAnim(_animParameter, true);
-
+        
         Movement(velocity);
     }
 
@@ -35,11 +37,14 @@ public class CharacterSwimState : State<CharacterController>
         StateMachine.CurrentState.Data.AnimationController.SetActiveBoolAnim(_animParameter, false);
         StateMachine.CurrentState.Data.TriggerController.OnRun -= SwitchStateRun;
         StateMachine.CurrentState.Data.TriggerController.OnClimb -= SwitchStateClimb;
+
+        StateMachine.CurrentState.Data.MovementController.TeleportY(17);
     }
 
     public void SwitchStateRun()
     {
         StopExecution();
+        StateMachine.CurrentState.Data.StatsController.SliderChangeVisibility();
         StateMachine.CurrentState = new CharacterRunState(StateMachine.CurrentState.Data, StateMachine);
         StateMachine.CurrentState.Initialize();
         StateMachine.CurrentState.Execute();
@@ -58,9 +63,8 @@ public class CharacterSwimState : State<CharacterController>
         StateMachine.CurrentState.Data.MovementController.DoMove(velocity);
     }
 
-    private async void ChangePos(Vector3 dir)
+    private void ChangePos(Vector3 dir)
     {
         StateMachine.CurrentState.Data.MovementController.DoMove(dir);
-        await Task.Delay(1000);
     }
 }

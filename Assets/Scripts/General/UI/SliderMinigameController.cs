@@ -7,10 +7,11 @@ using UnityEngine.UI;
 public class SliderMinigameController : MonoBehaviour
 {
     public enum SliderPosition
-    {
+    { 
         Min=0,
         Middle=1,
-        Max=2
+        Max=2,
+        Empty = 3
     }
     public event Action<bool> OnSliderOverflow;
     public event Action<SliderPosition> OnSliderPositionChanged;
@@ -18,13 +19,18 @@ public class SliderMinigameController : MonoBehaviour
     [SerializeField]
     private Slider _slider;
 
-    private float _stepValueIncrease = 0.15f;
-    private float _stepValueDecrease = -0.05f;
+    [SerializeField]
+    private Image _sliderImage;
+
+    private float _stepValueIncrease = 0.1f;
+    private float _stepValueDecrease = -0.033f;
     private float _stepValueCurrent = 0;
+
+    private float _sliderUpdateFrequency = 0.05f;
 
     private bool _isSliderOverflow;
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(UpdateSlider());
     }
@@ -48,7 +54,7 @@ public class SliderMinigameController : MonoBehaviour
             {
                 _stepValueCurrent = _stepValueDecrease;
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(_sliderUpdateFrequency);
         }
     }
 
@@ -77,9 +83,34 @@ public class SliderMinigameController : MonoBehaviour
 
     private void CheckSliderPosition(float sliderValue)
     {
-        if(sliderValue>0 && sliderValue<=0.25 || sliderValue>=0.75 && sliderValue<1)
+        if(sliderValue>0 && sliderValue<=0.2 || sliderValue>=0.8 && sliderValue<1)
         {
+            _sliderImage.color = Color.red;
             OnSliderPositionChanged?.Invoke(SliderPosition.Min);
-        }    
+        }
+        if (sliderValue > 0.2 && sliderValue <= 0.4 || sliderValue >= 0.6 && sliderValue < 0.8)
+        {
+            _sliderImage.color = Color.yellow;
+            OnSliderPositionChanged?.Invoke(SliderPosition.Middle);
+        }
+        if (sliderValue>0.4f && sliderValue<0.6f)
+        {
+            _sliderImage.color = Color.green;
+            OnSliderPositionChanged?.Invoke(SliderPosition.Max);
+        }
+        if(sliderValue == 0)
+        {
+            OnSliderPositionChanged?.Invoke(SliderPosition.Empty);
+        }
+    }
+
+    public void HideSlider()
+    {
+        this.gameObject.SetActive(false);
+    }    
+
+    public void ShowSlider()
+    {
+        this.gameObject.SetActive(true);
     }
 }

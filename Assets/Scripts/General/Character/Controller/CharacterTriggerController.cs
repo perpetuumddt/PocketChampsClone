@@ -14,22 +14,21 @@ public class CharacterTriggerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Finish"))
+        switch(other.tag)
         {
-            InvokeOnFinish();
+            case "Finish":
+                InvokeOnFinish();
+                break;
+            case "ClimbingArea":
+                InvokeOnClimbing(); 
+                break;
+            case "RunningArea":
+                InvokeOnRunning(); 
+                break;
+            case "SwimmingArea":
+                InvokeOnSwimming();
+                break;
         }
-        else if(other.CompareTag("ClimbingArea"))
-        {
-            InvokeOnClimbing();
-        }
-        else if(other.CompareTag("RunningArea"))
-        {
-            InvokeOnRunning();
-        }
-        else if(other.CompareTag("SwimmingArea"))//Сделать отдельными переменными
-        {
-            InvokeOnSwimming();
-        } //TODO: переделать на switch
     }
 
     private void InvokeOnFinish()

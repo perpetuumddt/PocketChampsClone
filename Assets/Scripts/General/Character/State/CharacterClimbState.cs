@@ -54,6 +54,7 @@ public class CharacterClimbState : State<CharacterController>
     public void SwitchStateRun()
     {
         StopExecution();
+        StateMachine.CurrentState.Data.StatsController.SliderChangeVisibility();
         StateMachine.CurrentState = new CharacterRunState(StateMachine.CurrentState.Data, StateMachine);
         StateMachine.CurrentState.Initialize();
         StateMachine.CurrentState.Execute();

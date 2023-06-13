@@ -20,14 +20,13 @@ namespace StateMachine
             StateMachine.CurrentState.Data.TriggerController.OnFinish += SwitchStateDance;
             StateMachine.CurrentState.Data.TriggerController.OnClimb += SwitchStateClimb;
             StateMachine.CurrentState.Data.TriggerController.OnSwim += SwitchStateSwim;
+            StateMachine.CurrentState.Data.StatsController.OnChangeVelocity += ChangeVelocity;
         }
 
         public override void Execute()
         {
             base.Execute();
             StateMachine.CurrentState.Data.AnimationController.SetActiveBoolAnim(_animParameter, true);
-            
-            Movement(velocity);
         }
 
         public override void StopExecution()
@@ -37,11 +36,13 @@ namespace StateMachine
             StateMachine.CurrentState.Data.TriggerController.OnFinish -= SwitchStateDance;
             StateMachine.CurrentState.Data.TriggerController.OnClimb -= SwitchStateClimb;
             StateMachine.CurrentState.Data.TriggerController.OnSwim -= SwitchStateSwim;
+            StateMachine.CurrentState.Data.StatsController.OnChangeVelocity -= ChangeVelocity;
         }
 
         public void SwitchStateDance()
         {
             StopExecution();
+            StateMachine.CurrentState.Data.StatsController.SliderChangeVisibility();
             StateMachine.CurrentState = new CharacterDanceState(StateMachine.CurrentState.Data,StateMachine);
             StateMachine.CurrentState.Initialize();
             StateMachine.CurrentState.Execute();
@@ -50,6 +51,7 @@ namespace StateMachine
         public void SwitchStateClimb()
         {
             StopExecution();
+            StateMachine.CurrentState.Data.StatsController.SliderChangeVisibility();
             StateMachine.CurrentState = new CharacterClimbState(StateMachine.CurrentState.Data, StateMachine);
             StateMachine.CurrentState.Initialize();
             StateMachine.CurrentState.Execute();
@@ -58,6 +60,7 @@ namespace StateMachine
         public void SwitchStateSwim()
         {
             StopExecution();
+            StateMachine.CurrentState.Data.StatsController.SliderChangeVisibility();
             StateMachine.CurrentState = new CharacterSwimState(StateMachine.CurrentState.Data, StateMachine);
             StateMachine.CurrentState.Initialize();
             StateMachine.CurrentState.Execute();
@@ -68,10 +71,9 @@ namespace StateMachine
             StateMachine.CurrentState.Data.MovementController.DoMove(velocity);
         }
 
-        private async void ChangePos(Vector3 dir)
+        private void ChangeVelocity(float velocity)
         {
-            StateMachine.CurrentState.Data.MovementController.DoMove(dir);
-            await Task.Delay(1000);
+            Movement(new(0,0,velocity));
         }
     }
 }
